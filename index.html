@@ -9,970 +9,772 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-            transition: 
-                background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                width 0.8s ease,
-                left 0.5s ease,
-                opacity 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            transition: all 0.2s ease-in-out;
         }
-        
+
         :root {
-            --primary: #4FC3F7;
-            --primary-light: #81D4FA;
-            --primary-dark: #0288D1;
-            --bg-main: #121212;
-            --bg-card: rgba(40,40,40,0.8);
-            --bg-card-hover: rgba(45,45,45,0.9);
-            --text-main: #e0e0e0;
-            --text-light: #aaa;
-            --text-warning: #ff5555;
-            --shadow-sm: 0 4px 10px rgba(0,0,0,0.2);
-            --shadow-md: 0 8px 20px rgba(0,0,0,0.3);
-            --shadow-lg: 0 0 20px rgba(79, 195, 247, 0.6);
+            --apple-primary: #0071e3;
+            --apple-secondary: #f5f5f7;
+            --apple-tertiary: #e8e8ed;
+            --apple-text-primary: #1d1d1f;
+            --apple-text-secondary: #6e6e73;
+            --apple-text-warning: #ff3b30;
+            --apple-white: #ffffff;
+            --shadow-subtle: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-soft: 0 2px 8px rgba(0,0,0,0.08);
             --radius-sm: 6px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            --glow: 0 0 15px rgba(79, 195, 247, 0.5);
+            --radius-md: 10px;
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
         }
-        .light-mode {
-            --bg-main: #f5f5f5;
-            --bg-card: rgba(255,255,255,0.8);
-            --bg-card-hover: rgba(255,255,255,0.95);
-            --text-main: #333;
-            --text-light: #666;
-            --shadow-sm: 0 4px 10px rgba(0,0,0,0.1);
-            --shadow-md: 0 8px 20px rgba(0,0,0,0.15);
-        }
+
         body {
-            background: var(--bg-main);
-            color: var(--text-main);
+            background-color: var(--apple-secondary);
+            color: var(--apple-text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
+            padding: var(--spacing-lg) 0;
             position: relative;
-            padding: 0;
-            margin: 0;
+            overflow-x: hidden;
         }
-        .bg-animation {
+
+        /* 水滴玻璃流动效果背景 */
+        .water-drop-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), 
-                url('https://pic.baike.soso.com/ugc/baikepic2/28682/cut-20220722153406-629254968_png/0');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            z-index: -2;
-            transition: background-image 0.5s ease, background-color 0.5s ease;
-        }
-        .bg-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            background: linear-gradient(120deg, rgba(129, 212, 250, 0.05), rgba(79, 195, 247, 0.03), rgba(129, 212, 250, 0.05));
+            background-size: 200% 200%;
+            animation: waterFlow 15s ease-in-out infinite;
             z-index: -1;
-            pointer-events: none;
-            opacity: 0.3;
+            backdrop-filter: blur(5px);
         }
-        .skeleton-loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-main);
+
+        @keyframes waterFlow {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .page-wrapper {
+            max-width: 768px;
+            width: 94%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 顶部导航栏（苹果风格顶栏） */
+        .top-bar {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            z-index: 9999;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .skeleton-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(90deg, #333, #444, #333);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-        }
-        .skeleton-text {
-            width: 200px;
-            height: 20px;
-            background: linear-gradient(90deg, #333, #444, #333);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-            border-radius: 10px;
-        }
-        @keyframes skeleton-loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        @keyframes pageLoad {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .content {
-            animation: pageLoad 1s ease;
-            padding: 15px 0;
-        }
-        .theme-toggle {
-            position: fixed;
-            bottom: 80px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background-color: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: var(--spacing-xl);
+            position: sticky;
+            top: 16px;
             z-index: 999;
-            border: 1px solid var(--primary);
-            margin-bottom: 10px;
-            z-index: 9999;
+            /* 导航栏水滴流动叠加层 */
+            overflow: hidden;
         }
-        .theme-toggle i {
-            font-size: 20px;
-            color: var(--primary);
+
+        .top-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.08), transparent);
+            animation: waterFlowBar 8s ease-in-out infinite;
+            z-index: -1;
         }
-        .theme-toggle:hover {
-            box-shadow: var(--shadow-lg);
-            transform: scale(1.05);
+
+        @keyframes waterFlowBar {
+            0% { transform: translateX(-50%) translateY(-50%); }
+            50% { transform: translateX(50%) translateY(50%); }
+            100% { transform: translateX(-50%) translateY(-50%); }
         }
-        .container {
-            max-width: 900px;
-            width: 92%;
-            margin: 30px auto;
-            padding: 20px 15px;
-            background: rgba(20,20,20,0.9);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 0 40px rgba(0,0,0,0.6);
-            border: 1px solid rgba(79, 195, 247, 0.3);
+
+        .server-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--apple-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
             overflow: hidden;
         }
-        .light-mode .container {
-            background: rgba(255,255,255,0.95);
-            box-shadow: 0 0 40px rgba(0,0,0,0.15);
+
+        /* 图标水滴流动效果 */
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(255,255,255,0.2), transparent);
+            animation: waterDropIcon 6s ease-in-out infinite;
         }
-        .light-mode .bg-animation {
-            background-image: 
-                linear-gradient(rgba(245,245,245,0.95), rgba(245,245,245,0.95)), 
-                url('https://pic.baike.soso.com/ugc/baikepic2/34915/cut-20220812162912-773717374_jpg/0');
+
+        @keyframes waterDropIcon {
+            0% { transform: rotate(0deg) translate(0, 100%); }
+            100% { transform: rotate(360deg) translate(0, 100%); }
         }
-        .container::before {
+
+        .logo-icon i {
+            font-size: 18px;
+            color: var(--apple-white);
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-text {
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #34c759;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #34c759;
+            animation: breathe 2s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* 英雄区 */
+        .hero-section {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg) 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            background-color: rgba(255,255,255,0.6);
+            backdrop-filter: blur(8px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* 英雄区水滴流动效果 */
+        .hero-section::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--primary-dark));
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(129, 212, 250, 0.1), transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(79, 195, 247, 0.1), transparent 50%);
+            background-size: 200% 200%;
+            animation: waterFlowHero 12s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes waterFlowHero {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .hero-title {
+            font-size: clamp(32px, 6vw, 44px);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            letter-spacing: -0.5px;
+            position: relative;
             z-index: 1;
         }
-        .title {
-            text-align: center;
-            font-size: clamp(28px, 6vw, 42px);
-            margin-bottom: 10px;
-            color: var(--primary);
-            text-shadow: var(--glow);
+
+        .hero-subtitle {
+            font-size: clamp(15px, 2vw, 17px);
+            color: var(--apple-text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
             position: relative;
-            animation: fadeInDown 1s ease;
-            letter-spacing: 1px;
-            font-weight: 700;
-            line-height: 1.2;
+            z-index: 1;
         }
-        .title i {
-            animation: rotateIcon 3s linear infinite;
-            margin-left: 8px;
+
+        /* 核心信息卡片 */
+        .info-card {
+            background-color: rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            overflow: hidden;
+            position: relative;
         }
-        @keyframes rotateIcon {
+
+        /* 卡片水滴流动效果 */
+        .info-card::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            right: -100%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(79, 195, 247, 0.06), transparent);
+            animation: waterFlowCard 10s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes waterFlowCard {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .subtitle {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--text-light);
-            animation: fadeInUp 1s ease 0.2s;
-            animation-fill-mode: both;
-            font-size: clamp(14px, 3vw, 16px);
-            letter-spacing: 0.5px;
-            padding: 0 10px;
-        }
-        .player-count {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin: 15px 0;
-            padding: 12px;
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
-        }
-        .player-count i {
-            font-size: 24px;
-            color: var(--primary);
-        }
-        .player-count .number {
-            font-size: clamp(24px, 4vw, 28px);
-            font-weight: bold;
-            color: var(--primary);
-            letter-spacing: 1px;
-        }
-        .player-count .label {
-            color: var(--text-light);
-            font-size: 14px;
-            text-align: center;
-        }
-        .player-count > div:nth-child(3) {
-            width: 1px;
-            height: 30px;
-            background: var(--text-light);
-            display: none;
-        }
-        @media (min-width: 600px) {
-            .player-count > div:nth-child(3) {
-                display: block;
-            }
-        }
-        .ip-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-            margin: 10px 0;
-        }
-        .card {
-            background: var(--bg-card);
-            padding: 20px 15px;
-            border-radius: var(--radius-md);
-            margin-bottom: 20px;
-            border-left: 4px solid var(--primary);
-            box-shadow: var(--shadow-sm);
-            animation: fadeIn 1s ease;
-            position: relative;
-            overflow: hidden;
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-        .card::after {
+
+        .info-card::before {
             content: '';
             position: absolute;
             top: 0;
-            right: 0;
-            width: 0;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.05), transparent);
-            transition: width 0.8s ease;
-            pointer-events: none;
-        }
-        .card:hover::after {
-            width: 100%;
-        }
-        
-        .card h2 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            font-size: clamp(18px, 4vw, 24px);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-        }
-        .card h2 i {
-            font-size: 20px;
-        }
-        
-        .card h2::before {
-            content: '';
-            display: inline-block;
+            left: 0;
             width: 4px;
-            height: 24px;
-            background: var(--primary);
-            border-radius: 2px;
+            height: 100%;
+            background-color: var(--apple-primary);
+            z-index: 1;
         }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-            background: var(--bg-card-hover);
-            border-left-color: var(--primary-light);
-        }
-        .info {
-            margin: 8px 0;
-            line-height: 1.7;
-            color: var(--text-main);
-            font-size: clamp(14px, 3vw, 15px);
-            padding: 0 2px;
-        }
-        .ip {
-            font-size: clamp(16px, 3vw, 18px);
-            color: #fff;
-            background: #222;
-            padding: 10px 15px;
-            border-radius: var(--radius-sm);
-            font-family: monospace;
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            text-align: center;
-            cursor: pointer;
-            z-index: 10;
-            word-break: break-all;
-        }
-        .ip-row {
+
+        .card-header {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin: 10px 0;
+            align-items: center;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            z-index: 1;
         }
+
+        .card-icon {
+            font-size: 20px;
+            color: var(--apple-primary);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        /* IP 区域特殊样式 */
+        .ip-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            z-index: 1;
+        }
+
         @media (min-width: 600px) {
-            .ip-row {
-                flex-direction: row;
-                gap: 20px;
+            .ip-container {
+                grid-template-columns: 1fr 1fr;
             }
         }
-        .ip-item {
-            flex: 1;
+
+        .ip-card {
+            background-color: rgba(245,245,247,0.8);
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-md);
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
+
         .ip-label {
-            color: var(--text-light);
-            font-size: 14px;
+            font-size: 13px;
+            color: var(--apple-text-secondary);
         }
-        .light-mode .ip {
-            background: #f0f0f0;
-            color: #333;
+
+        .ip-value {
+            font-size: 16px;
+            font-family: monospace;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 6px 0;
+            text-align: center;
+            border-radius: var(--radius-sm);
+            background-color: rgba(255,255,255,0.6);
+            transition: all 0.3s ease;
         }
-        .ip::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(79, 195, 247, 0.2), transparent);
-            transition: left 0.5s ease;
-            z-index: -1;
+
+        .ip-value:hover {
+            background-color: var(--apple-tertiary);
+            transform: translateY(-2px);
         }
-        
-        .ip:hover {
-            background: var(--primary) !important;
-            color: #121212 !important;
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
-            transform: scale(1.02);
+
+        /* 基础信息文本 */
+        .basic-info {
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            z-index: 1;
         }
-        .ip:hover::before {
-            left: 100%;
+
+        .basic-info:last-of-type {
+            margin-bottom: 0;
         }
-        .warn {
-            color: var(--text-warning);
+
+        .warning-text {
+            color: var(--apple-text-warning);
             font-weight: 500;
             display: flex;
-            align-items: center;
-            gap: 5px;
-            margin: 8px 0;
-            white-space: normal;
-            font-size: 14px;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: var(--spacing-md);
+            font-size: 15px;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
         }
-        .warn::before {
+
+        .warning-text::before {
             content: '⚠';
-            font-size: 14px;
+            font-size: 16px;
+            margin-top: 2px;
         }
-        .links a {
-            color: var(--primary);
-            text-decoration: none;
-            margin-right: 10px;
-            margin-bottom: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 8px;
-            border-radius: var(--radius-sm);
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-            font-size: 14px;
-        }
-        
-        .links a:hover {
-            color: #121212 !important;
-            background: var(--primary) !important;
-            box-shadow: var(--glow);
-            transform: translateY(-2px);
-            text-decoration: none;
-        }
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: var(--text-light);
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            animation: fadeIn 1s ease 1.5s;
-            font-size: 13px;
-        }
-        .light-mode footer {
-            border-top: 1px solid rgba(0,0,0,0.1);
-        }
-        .feature-grid {
+
+        /* 特色功能区 */
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin-top: 15px;
-        }
-        .feature-item {
-            background: rgba(50,50,50,0.6);
-            padding: 12px 8px;
-            border-radius: var(--radius-sm);
-            text-align: center;
-            border: 1px solid rgba(79, 195, 247, 0.1);
+            grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(clamp(120px, 25%, 180px), 1fr));
+            grid-template-columns: repeat(min(3, auto-fit), 1fr);
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-sm);
             position: relative;
-            z-index: 10;
-            transform: translateY(0);
-        }
-        .light-mode .feature-item {
-            background: rgba(240,240,240,0.8);
-        }
-        .feature-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
             z-index: 1;
+            justify-items: center;
         }
-        
-        .feature-item:hover {
-            border-color: var(--primary) !important;
-            background: rgba(50,50,50,0.8) !important;
-            transform: translateY(-3px) !important;
-        }
-        .light-mode .feature-item:hover {
-            background: rgba(255,255,255,0.95) !important;
-        }
-        .feature-item:hover::after {
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-md);
+            background-color: rgba(245,245,247,0.8);
+            border-radius: var(--radius-sm);
+            gap: 8px;
+            transition: all 0.3s ease;
+            min-width: 100px;
             width: 100%;
         }
-        
-        .feature-item i {
+
+        .feature-item:hover {
+            background-color: rgba(255,255,255,0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
             font-size: 24px;
-            color: var(--primary);
-            margin-bottom: 8px;
-            display: block;
+            color: var(--apple-primary);
         }
-        .feature-item p {
-            font-size: 13px;
+
+        .feature-name {
+            font-size: 14px;
+            text-align: center;
+            color: var(--apple-text-primary);
         }
-        .status {
+
+        /* 社交链接区 */
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-link {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 15px;
-            padding: 8px 12px;
-            background: rgba(30,30,30,0.7);
+            padding: 8px 16px;
+            background-color: rgba(245,245,247,0.8);
             border-radius: var(--radius-sm);
-            width: fit-content;
+            color: var(--apple-primary);
+            text-decoration: none;
             font-size: 14px;
+            font-weight: 500;
+            flex: 1;
+            min-width: 140px;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
-        .light-mode .status {
-            background: rgba(240,240,240,0.8);
+
+        .social-link:hover {
+            background-color: rgba(255,255,255,0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
-        .status-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #4CAF50;
-            animation: pulse 2s infinite;
-            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+
+        .social-icon {
+            font-size: 16px;
         }
-        .copy-tooltip {
+
+        /* 玩家数据区 */
+        .player-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-md);
+            background-color: rgba(255,255,255,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 玩家数据区水滴流动效果 */
+        .player-stats::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, transparent, rgba(129, 212, 250, 0.07), transparent);
+            animation: waterFlowStats 14s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes waterFlowStats {
+            0% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(50%) translateY(50%); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number {
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 600;
+            color: var(--apple-primary);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--apple-text-secondary);
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: var(--spacing-lg) 0;
+            margin-top: var(--spacing-xl);
+            font-size: 12px;
+            color: var(--apple-text-secondary);
+            border-top: 1px solid var(--apple-tertiary);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 复制提示 */
+        .copy-toast {
             position: fixed;
-            background: rgba(0,0,0,0.9);
-            color: #fff;
-            padding: 6px 12px;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0,0,0,0.8);
+            color: var(--apple-white);
+            padding: 8px 16px;
             border-radius: var(--radius-sm);
-            font-size: 13px;
+            font-size: 14px;
             display: none;
             z-index: 9999;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            border-left: 3px solid var(--primary);
-            animation: tooltipPop 0.3s ease;
-            max-width: 90%;
-            text-align: center;
+            backdrop-filter: blur(4px);
+            animation: popUp 0.3s ease-out;
         }
-        .light-mode .copy-tooltip {
-            background: rgba(255,255,255,0.95);
-            color: #333;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+        @keyframes popUp {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* 响应式适配 */
+        @media (max-width: 480px) {
+            .page-wrapper {
+                width: 96%;
+            }
+
+            .top-bar {
+                padding: var(--spacing-xs) var(--spacing-sm);
+                margin-bottom: var(--spacing-lg);
+            }
+
+            .hero-title {
+                font-size: 28px;
+            }
+
+            .player-stats {
+                gap: var(--spacing-md);
+                flex-wrap: wrap;
+                padding: var(--spacing-sm);
+            }
+
+            .stat-item {
+                flex: 1;
+                min-width: 80px;
+            }
+
+            .social-link {
+                width: 100%;
+                min-width: auto;
+            }
         }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
-        }
-        @keyframes tooltipPop {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+
+        /* 苹果风格滚动条 */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
+
         ::-webkit-scrollbar-track {
-            background: #222;
+            background: transparent;
         }
-        .light-mode ::-webkit-scrollbar-track {
-            background: #f0f0f0;
-        }
+
         ::-webkit-scrollbar-thumb {
-            background: #444;
-            border-radius: 4px;
+            background: var(--apple-tertiary);
+            border-radius: 3px;
         }
-        .light-mode ::-webkit-scrollbar-thumb {
-            background: #ccc;
-        }
+
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
-        }
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            z-index: 998;
-            border: 1px solid var(--primary);
-        }
-        .back-to-top.show {
-            display: flex;
-        }
-        .back-to-top i {
-            font-size: 18px;
-            color: var(--primary);
-        }
-        .back-to-top:hover {
-            box-shadow: var(--shadow-lg);
-            transform: scale(1.05);
-        }
-        @media (max-width: 480px) {
-            .container {
-                margin: 20px auto;
-                padding: 15px 10px;
-                width: 95%;
-            }
-            .title {
-                font-size: 26px;
-                letter-spacing: 0;
-            }
-            .subtitle {
-                margin-bottom: 20px;
-                font-size: 13px;
-            }
-            .player-count {
-                gap: 10px;
-                padding: 10px 5px;
-            }
-            .player-count .number {
-                font-size: 22px;
-            }
-            .card {
-                padding: 15px 10px;
-                margin-bottom: 15px;
-            }
-            .card h2 {
-                font-size: 18px;
-                gap: 8px;
-                margin-bottom: 12px;
-            }
-            .card h2 i {
-                font-size: 18px;
-            }
-            .info {
-                font-size: 13px;
-                line-height: 1.6;
-                margin: 6px 0;
-            }
-            .ip {
-                padding: 8px 10px;
-                font-size: 15px;
-            }
-            .feature-grid {
-                gap: 10px;
-            }
-            .feature-item {
-                padding: 10px 5px;
-            }
-            .feature-item i {
-                font-size: 22px;
-                margin-bottom: 6px;
-            }
-            .feature-item p {
-                font-size: 12px;
-            }
-            .links a {
-                display: block;
-                margin-right: 0;
-                margin-bottom: 10px;
-                padding: 6px 10px;
-                font-size: 13px;
-            }
-            .theme-toggle, .back-to-top {
-                width: 42px;
-                height: 42px;
-                left: 12px;
-            }
-            .theme-toggle {
-                bottom: 65px;
-            }
-            .back-to-top {
-                bottom: 12px;
-            }
-            footer {
-                margin-top: 20px;
-                font-size: 12px;
-                padding-top: 12px;
-            }
-            .status {
-                padding: 6px 10px;
-                font-size: 13px;
-            }
-            .warn {
-                font-size: 13px;
-                line-height: 1.5;
-            }
-        }
-        @media (min-width: 481px) and (max-width: 768px) {
-            .container {
-                padding: 18px 12px;
-                margin: 25px auto;
-            }
-            .feature-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .player-count {
-                gap: 12px;
-            }
-            .card h2 {
-                font-size: 20px;
-            }
-            .info {
-                font-size: 14px;
-            }
-        }
-        @media (min-width: 769px) {
-            .container {
-                padding: 25px 20px;
-                margin: 40px auto;
-            }
-            .feature-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 15px;
-            }
+            background: var(--apple-text-secondary);
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body>
-    <div class="skeleton-loader" id="skeletonLoader">
-        <div class="skeleton-logo"></div>
-        <div class="skeleton-text"></div>
-        <div class="skeleton-text" style="width: 150px;"></div>
-    </div>
-    <div class="bg-animation"></div>
-    <div class="bg-particles" id="particles-js"></div>
-    <div class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon" id="themeIcon"></i>
-    </div>
-    <div class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-    <div class="content">
-        <div class="container">
-            <h1 class="title">1N1E 服务器 <i class="fas fa-server"></i></h1>
-            <p class="subtitle">Java 版 · 纯净生存 · 自由冒险 · 稳定运行</p>
-            <div class="player-count">
-                <i class="fas fa-users"></i>
-                <div>
-                    <div class="number" id="playerNumber">2~8</div>
-                    <div class="label">玩家常在线</div>
+    <!-- 水滴玻璃流动效果背景层 -->
+    <div class="water-drop-bg"></div>
+
+    <div class="page-wrapper">
+        <!-- 顶部导航栏 -->
+        <div class="top-bar">
+            <div class="server-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-server"></i>
                 </div>
-                <div style="width: 1px; height: 40px; background: var(--text-light);"></div>
-                <div>
-                    <div class="number">50</div>
-                    <div class="label">服务器最大人数</div>
-                </div>
+                <span class="logo-text">1N1E 服务器</span>
             </div>
-            <div class="card">
-                <h2><i class="fas fa-server"></i> 服务器信息</h2>
-                <div class="ip-row">
-                    <div class="ip-item">
-                        <span class="ip-label">主线 IP：</span>
-                        <span class="ip" data-ip="2bfwq.kryolla.world">2bfwq.kryolla.world</span>
-                    </div>
-                    <div class="ip-item">
-                        <span class="ip-label">副线 IP：</span>
-                        <span class="ip" data-ip="1n1e.kryolla.world">1n1e.kryolla.world</span>
-                    </div>
-                </div>
-                <p class="info">推荐版本：1.21.8（1.21.8 以下均可进入）</p>
-                <p class="info">地图种子：13202026（仅供参考）</p>
-                <div class="status">
-                    <span class="status-dot"></span>
-                    <span>服务器白天在线 ✅</span>
-                </div>
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span>开放时间 9a.m-11.30p.m.</span> <!-- 已修改文本 -->
             </div>
-            <div class="card">
-                <h2><i class="fas fa-star"></i> 服务器特色</h2>
-                <div class="feature-grid">
-                    <div class="feature-item">
-                        <i class="fas fa-leaf"></i>
-                        <p>纯净生存</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt"></i>
-                        <p>防护系统完善</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-users"></i>
-                        <p>友好社区</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-infinity"></i>
-                        <p>无重置地图</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-tools"></i>
-                        <p>基础插件丰富</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-globe"></i>
-                        <p>多线IP</p>
-                    </div>
+        </div>
+
+        <!-- 英雄区 -->
+        <div class="hero-section">
+            <h1 class="hero-title">1N1E 生存服</h1>
+            <p class="hero-subtitle">Java 版 · 纯净生存 · 自由冒险 · 稳定运行</p>
+        </div>
+
+        <!-- 玩家数据区 -->
+        <div class="player-stats">
+            <div class="stat-item">
+                <div class="stat-number">2~8</div>
+                <div class="stat-label">常在线玩家</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50</div>
+                <div class="stat-label">最大容纳人数</div>
+            </div>
+        </div>
+
+        <!-- 服务器信息卡片 -->
+        <div class="info-card">
+            <div class="card-header">
+                <i class="fas fa-server card-icon"></i>
+                <h2 class="card-title">服务器信息</h2>
+            </div>
+            <div class="ip-container">
+                <div class="ip-card">
+                    <span class="ip-label">主线 IP</span>
+                    <div class="ip-value" data-ip="2bfwq.kryolla.world">2bfwq.kryolla.world</div>
+                </div>
+                <div class="ip-card">
+                    <span class="ip-label">副线 IP</span>
+                    <div class="ip-value" data-ip="1n1e.kryolla.world">1n1e.kryolla.world</div>
                 </div>
             </div>
-            <div class="card">
-                <h2><i class="fas fa-gavel"></i> 游戏规则</h2>
-                <p class="info">✅ 主生存区：禁止恶意破坏/作弊/刷屏</p>
-                <p class="info">✅ 生存区-2：无规则（自由PVP/建造/破坏）</p>
+            <p class="basic-info">推荐版本：1.21.8（1.21.8 以下版本均可兼容）</p>
+            <p class="basic-info">地图种子：13202026（仅供参考）</p>
+        </div>
+
+        <!-- 服务器特色卡片 -->
+        <div class="info-card">
+            <div class="card-header">
+                <i class="fas fa-star card-icon"></i>
+                <h2 class="card-title">服务器特色</h2>
             </div>
-            <div class="card">
-                <h2><i class="fas fa-user-shield"></i> 账号说明</h2>
-                <p class="info">支持：正版 / 离线玩家均可进入</p>
-                <p class="info">💡 账号保护：服务器使用密码插件，正版玩家账号受保护</p>
-                <p class="info warn">离线账号不受服务器保护，账号被盗自行负责</p>
-                <p class="info warn">禁止作弊：服务器已部署反作弊系统，作弊永久封禁</p>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-leaf feature-icon"></i>
+                    <span class="feature-name">纯净生存</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <span class="feature-name">防护完善</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-users feature-icon"></i>
+                    <span class="feature-name">友好社区</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-infinity feature-icon"></i>
+                    <span class="feature-name">无重置地图</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-tools feature-icon"></i>
+                    <span class="feature-name">插件丰富</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-globe feature-icon"></i>
+                    <span class="feature-name">多线IP</span>
+                </div>
             </div>
-            <div class="card">
-                <h2><i class="fas fa-question-circle"></i> 常见问题</h2>
-                <p class="info">无法连接服务器？ — 检查网络/版本是否匹配，或切换副线IP尝试</p>
-                <p class="info">服务器允许开挂吗？ — 不允许，但是可以开矿透</p>
-                <p class="info">服务器不显示皮肤怎么办？ — 安装“CustomSkinLoader”模组即可</p>
+        </div>
+
+        <!-- 游戏规则卡片 -->
+        <div class="info-card">
+            <div class="card-header">
+                <i class="fas fa-gavel card-icon"></i>
+                <h2 class="card-title">游戏规则</h2>
             </div>
-            <div class="card links">
-                <h2><i class="fas fa-phone-alt"></i> 联系我们</h2>
-                <p class="info"><i class="fab fa-qq"></i> QQ 群：<a href="https://qm.qq.com/cgi-bin/qm/qr?k=HCoxmyx7Uw5FNmBU5KaJpHg_LUHedsuP&jump_from=webapi&authKey=s0b+rCnIuxIBEDc0kyxkLzkR6Cqov3KPr//clzN9tjQLi1jAx+VOkcXIilKyPEDC" target="_blank">296820802</a></p>
-                <p class="info"><i class="fab fa-tiktok"></i> 抖音：<a href="https://www.douyin.com/user/MS4wLjABAAAAUz2-6tTLnW7uN_K9Kx4MjASKFWBx5j5Iu7rx_zs63f8?from_tab_name=main" target="_blank">25703885669</a></p>
-                <p class="info"><i class="fab fa-bilibili"></i> B站 UID：<a href="https://space.bilibili.com/1307256829" target="_blank">1307256829</a></p>
-                <p class="info"><i class="fas fa-video"></i> 快手：<a href="https://www.kuaishou.com/profile/3xacxmqj9mu5bse?source=SEARCH" target="_blank">3217035162</a></p>
+            <p class="basic-info">✅ 主生存区：禁止恶意破坏、作弊、刷屏等影响他人体验的行为</p>
+            <p class="basic-info">✅ 生存区 2：无规则限制，支持自由PVP、建造与破坏</p>
+        </div>
+
+        <!-- 账号说明卡片 -->
+        <div class="info-card">
+            <div class="card-header">
+                <i class="fas fa-user-shield card-icon"></i>
+                <h2 class="card-title">账号说明</h2>
             </div>
-            <footer>
-                <p>© 2026 1N1E Server · 欢迎加入游戏</p>
-                <p style="margin-top: 8px; font-size: 12px;">服务器白天开启 | 如有问题请联系管理员</p>
-            </footer>
+            <p class="basic-info">支持正版、离线玩家双重登录，无门槛加入</p>
+            <p class="basic-info">💡 正版玩家账号受密码插件保护，安全性更高</p>
+            <p class="warning-text">离线账号无服务器保护，账号被盗需自行承担责任</p>
+            <p class="warning-text">服务器已部署反作弊系统，作弊行为将被永久封禁</p>
+        </div>
+
+        <!-- 常见问题卡片 -->
+        <div class="info-card">
+            <div class="card-header">
+                <i class="fas fa-question-circle card-icon"></i>
+                <h2 class="card-title">常见问题</h2>
+            </div>
+            <p class="basic-info">无法连接服务器？ — 检查网络稳定性与版本兼容性，或切换副线IP重试</p>
+            <p class="basic-info">服务器允许开挂吗？ — 严格禁止作弊，矿透功能可正常使用</p>
+            <p class="basic-info">不显示皮肤怎么办？ — 安装「CustomSkinLoader」模组即可解决</p>
+        </div>
+
+        <!-- 联系我们卡片 -->
+        <div class="info-card">
+            <div class="card-header">
+                <i class="fas fa-link card-icon"></i>
+                <h2 class="card-title">联系我们</h2>
+            </div>
+            <div class="social-links">
+                <a href="https://qm.qq.com/cgi-bin/qm/qr?k=HCoxmyx7Uw5FNmBU5KaJpHg_LUHedsuP&jump_from=webapi&authKey=s0b+rCnIuxIBEDc0kyxkLzkR6Cqov3KPr//clzN9tjQLi1jAx+VOkcXIilKyPEDC" target="_blank" class="social-link">
+                    <i class="fab fa-qq social-icon"></i>
+                    <span>QQ群：296820802</span>
+                </a>
+                <a href="https://www.douyin.com/user/MS4wLjABAAAAUz2-6tTLnW7uN_K9Kx4MjASKFWBx5j5Iu7rx_zs63f8?from_tab_name=main" target="_blank" class="social-link">
+                    <i class="fab fa-tiktok social-icon"></i>
+                    <span>抖音：25703885669</span>
+                </a>
+                <a href="https://space.bilibili.com/1307256829" target="_blank" class="social-link">
+                    <i class="fab fa-bilibili social-icon"></i>
+                    <span>B站UID：1307256829</span>
+                </a>
+                <a href="https://www.kuaishou.com/profile/3xacxmqj9mu5bse?source=SEARCH" target="_blank" class="social-link">
+                    <i class="fas fa-video social-icon"></i>
+                    <span>快手：3217035162</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>© 2026 1N1E Server · 欢迎加入游戏</p>
+            <p style="margin-top: 4px;">服务器白天开启 | 如有问题请联系管理员</p>
         </div>
     </div>
-    <div class="copy-tooltip" id="copyTooltip">已复制到剪贴板！</div>
+
+    <!-- 复制提示 -->
+    <div class="copy-toast" id="copyToast">IP已复制到剪贴板</div>
+
     <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('skeletonLoader').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('skeletonLoader').style.display = 'none';
-                }, 500);
-            }, 800);
-        });
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: '#4FC3F7' },
-                shape: { type: 'circle' },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
-                line_linked: { enable: true, distance: 150, color: '#4FC3F7', opacity: 0.2, width: 1 },
-                move: { enable: true, speed: 1, direction: 'none', random: true, straight: false, out_mode: 'out', bounce: false }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: { enable: true, mode: 'grab' },
-                    onclick: { enable: true, mode: 'push' },
-                    resize: true
-                },
-                modes: {
-                    grab: { distance: 140, line_linked: { opacity: 0.8 } },
-                    push: { particles_nb: 4 }
-                }
-            },
-            retina_detect: true
-        });
-        const ipElements = document.querySelectorAll('.ip');
-        const tooltip = document.getElementById('copyTooltip');
-        
+        // IP复制功能
+        const ipElements = document.querySelectorAll('.ip-value');
+        const copyToast = document.getElementById('copyToast');
+
         ipElements.forEach(ipEl => {
-            ipEl.style.pointerEvents = 'auto';
-            
-            ipEl.addEventListener('click', (e) => {
-                e.stopPropagation();
-                
-                playClickSound();
-                
+            ipEl.addEventListener('click', () => {
                 const ip = ipEl.getAttribute('data-ip') || ipEl.textContent;
                 navigator.clipboard.writeText(ip).then(() => {
-                    const rect = ipEl.getBoundingClientRect();
-                    const left = Math.max(10, rect.left + rect.width/2 - tooltip.offsetWidth/2);
-                    const top = Math.max(10, rect.top - 40);
-                    tooltip.style.display = 'block';
-                    tooltip.style.left = `${left}px`;
-                    tooltip.style.top = `${top}px`;
-                    
+                    copyToast.style.display = 'block';
                     setTimeout(() => {
-                        tooltip.style.opacity = '0';
+                        copyToast.style.opacity = '0';
                         setTimeout(() => {
-                            tooltip.style.display = 'none';
-                            tooltip.style.opacity = '1';
+                            copyToast.style.display = 'none';
+                            copyToast.style.opacity = '1';
                         }, 300);
-                    }, 2000);
+                    }, 1500);
                 }).catch(err => {
                     alert('复制失败，请手动复制：' + ip);
                 });
             });
-            ipEl.setAttribute('title', '点击复制IP');
         });
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        const body = document.body;
-        
-        if (localStorage.getItem('theme') === 'light') {
-            body.classList.add('light-mode');
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-        }
-        
-        themeToggle.addEventListener('click', () => {
-            playClickSound();
-            body.classList.toggle('light-mode');
-            
-            if (body.classList.contains('light-mode')) {
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-                localStorage.setItem('theme', 'light');
-            } else {
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-        const backToTop = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTop.classList.add('show');
-            } else {
-                backToTop.classList.remove('show');
-            }
-            
-            const container = document.querySelector('.container');
-            const scrollY = window.scrollY;
-            const opacityValue = Math.min(0.8, 0.5 + scrollY/1000);
-            container.style.boxShadow = `0 0 40px rgba(0,0,0,${opacityValue})`;
-            container.style.transform = `translateY(${scrollY * 0.02}px)`;
-        });
-        
-        backToTop.addEventListener('click', () => {
-            playClickSound();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-        function playClickSound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                oscillator.type = 'sine';
-                oscillator.frequency.value = 440;
-                gainNode.gain.value = 0.1;
-                
-                oscillator.start();
-                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.1);
-                oscillator.stop(audioCtx.currentTime + 0.1);
-            } catch (e) {
-            }
-        }
-        
-        body.addEventListener('classListChange', () => {
-            document.querySelectorAll('.ip, .feature-item, .links a, .card').forEach(el => {
-                el.style.display = 'none';
-                setTimeout(() => {
-                    el.style.display = '';
-                }, 0);
-            });
+
+        // 页面加载淡入效果
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
         });
     </script>
 </body>
